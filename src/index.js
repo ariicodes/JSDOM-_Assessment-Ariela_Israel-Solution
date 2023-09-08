@@ -303,9 +303,7 @@ function render(contacts) {
   Return a new array containing the filtered list. 
   Do NOT modify the original array.
 */
-function filterByCity(city) {
-  
-}
+function filterByCity(city) {}
 
 /*
   Add an `change` event listener to the `filterOptions` select element.
@@ -341,7 +339,9 @@ function deleteButtonHandler() {}
   Perform all startup tasks here. Use this function to attach the 
   required event listeners, call loadCities() then call render().
 */
-function main() {}
+function main() {
+	render(contacts);
+}
 
 window.addEventListener('DOMContentLoaded', main);
 
