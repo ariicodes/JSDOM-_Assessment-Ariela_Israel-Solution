@@ -303,7 +303,9 @@ function render(contacts) {
   Return a new array containing the filtered list. 
   Do NOT modify the original array.
 */
-function filterByCity(city) {}
+function filterByCity(city) {
+	return contacts.filter(contact => contact.address.city === city);
+}
 
 /*
   Add an `change` event listener to the `filterOptions` select element.
@@ -312,7 +314,21 @@ function filterByCity(city) {}
   If the value is not "0" call `filterByCity()` passing the value selected by
   the user. Then call `render()` with the filtered list.
 */
-function filterHandler() {}
+function filterHandler() {
+
+	filterOptions.addEventListener('change', () => {
+		const filterOptions = document.querySelector('select#filterOptions');
+		let cityVal = filterOptions.value;
+
+		if (cityVal === '0') {
+			render(contacts);
+		} else {
+			let city = `${cityVal} Vale`;
+			let filter = filterByCity(city);
+			render(filter)
+		}
+	});
+}
 
 /*
   Accepts an array of contacts.
@@ -320,16 +336,6 @@ function filterHandler() {}
   Create a list of cities from the contacts array with no duplicates then
   add an `<option>` element for each city to the select.
 */
-
-//////////////////////////
-/* ---- Pseudocode ---- */
-//////////////////////////
-
-// select `filterOptions`
-// create a variable `cityOpt` to hold the contacts list
-// map over the contacts and pull the city values via `contacts.address.city`
-// create a list of options
-// append `cityOpt` to `filterOptions`
 
 function loadCities(contacts) {
 	const filterOptions = document.querySelector('select#filterOptions');
@@ -369,9 +375,11 @@ function deleteButtonHandler() {}
   required event listeners, call loadCities() then call render().
 */
 function main() {
+	loadCities(contacts);
+
 	render(contacts);
 
-	loadCities(contacts);
+	filterHandler();
 }
 
 window.addEventListener('DOMContentLoaded', main);
