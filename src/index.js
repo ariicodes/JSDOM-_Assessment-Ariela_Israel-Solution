@@ -315,7 +315,6 @@ function filterByCity(city) {
   the user. Then call `render()` with the filtered list.
 */
 function filterHandler() {
-
 	filterOptions.addEventListener('change', () => {
 		const filterOptions = document.querySelector('select#filterOptions');
 		let cityVal = filterOptions.value;
@@ -325,7 +324,7 @@ function filterHandler() {
 		} else {
 			let city = `${cityVal} Vale`;
 			let filter = filterByCity(city);
-			render(filter)
+			render(filter);
 		}
 	});
 }
@@ -354,7 +353,9 @@ function loadCities(contacts) {
 		})
 		.join('');
 
-	filterOptions.innerHTML += cityOptions;
+	!contacts
+		? (filterOptions.innerHTML += '')
+		: (filterOptions.innerHTML += cityOptions);
 }
 
 /*
