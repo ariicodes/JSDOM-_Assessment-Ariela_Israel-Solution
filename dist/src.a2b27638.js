@@ -372,7 +372,12 @@ function renderContact(contact) {
   Render the array of contacts and insert them on the DOM.
   The contacts should be rendered in the `section` with id "contacts".
 */
-function render(contacts) {}
+function render(contacts) {
+  var contactSection = document.querySelector('section#contacts');
+  contactSection.innerHTML = '';
+  var content = contacts.map(renderContact).join('');
+  contactSection.innerHTML = content;
+}
 
 /*
   Filter by city. Filter the  array of contacts by the given city.
@@ -396,7 +401,20 @@ function filterHandler() {}
   Create a list of cities from the contacts array with no duplicates then
   add an `<option>` element for each city to the select.
 */
-function loadCities(contacts) {}
+
+// select `filterOptions`
+// create a variable `cityOpt` to hold the contacts list
+// map over the contacts and pull the city values via `contacts.address.city`
+// create a list of options
+// append `cityOpt` to `filterOptions`
+
+function loadCities(contacts) {
+  var filterOptions = document.querySelector('select#filterOptions');
+  var cityOptions = contacts.map(function (contact) {
+    "<option value=".concat(contact.address.city, ">").concat(contact.address.city, "</option>");
+  });
+  console.log(cityOptions);
+}
 
 /*
   Remove the contact from the contact list with the given id.
@@ -415,7 +433,9 @@ function deleteButtonHandler() {}
   Perform all startup tasks here. Use this function to attach the 
   required event listeners, call loadCities() then call render().
 */
-function main() {}
+function main() {
+  render(contacts);
+}
 window.addEventListener('DOMContentLoaded', main);
 
 //////////////////////////////////////////
@@ -455,7 +475,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54069" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54824" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

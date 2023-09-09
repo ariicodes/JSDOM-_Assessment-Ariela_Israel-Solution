@@ -320,7 +320,36 @@ function filterHandler() {}
   Create a list of cities from the contacts array with no duplicates then
   add an `<option>` element for each city to the select.
 */
-function loadCities(contacts) {}
+
+//////////////////////////
+/* ---- Pseudocode ---- */
+//////////////////////////
+
+// select `filterOptions`
+// create a variable `cityOpt` to hold the contacts list
+// map over the contacts and pull the city values via `contacts.address.city`
+// create a list of options
+// append `cityOpt` to `filterOptions`
+
+function loadCities(contacts) {
+	const filterOptions = document.querySelector('select#filterOptions');
+
+	const contactCities = contacts.filter((item, index, array) => {
+		const cityIndex = array.findIndex(
+			cityItem => cityItem.address.city === item.address.city
+		);
+
+		return cityIndex === index;
+	});
+
+	const cityOptions = contactCities
+		.map(contact => {
+			return `<option value=${contact.address.city}>${contact.address.city}</option>`;
+		})
+		.join('');
+
+	filterOptions.innerHTML += cityOptions;
+}
 
 /*
   Remove the contact from the contact list with the given id.
@@ -341,6 +370,8 @@ function deleteButtonHandler() {}
 */
 function main() {
 	render(contacts);
+
+	loadCities(contacts);
 }
 
 window.addEventListener('DOMContentLoaded', main);
