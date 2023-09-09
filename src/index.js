@@ -340,25 +340,23 @@ function filterHandler() {
 */
 
 function loadCities(contacts) {
-	const filterOptions = document.querySelector('select#filterOptions');
+	const filterOptions = document.querySelector('#filterOptions > option');
 
-	const contactCities = contacts.filter((item, index, array) => {
-		const cityIndex = array.findIndex(
-			cityItem => cityItem.address.city === item.address.city
-		);
+	if (contacts.length > 0) {
+		const contactCities = contacts.filter((item, index, array) => {
+			const cityIndex = array.findIndex(
+				cityItem => cityItem.address.city === item.address.city
+			);
 
-		return cityIndex === index;
-	});
+			return cityIndex === index;
+		});
 
-	const cityOptions = contactCities
-		.map(contact => {
-			return `<option value=${contact.address.city}>${contact.address.city}</option>`;
-		})
-		.join('');
+		const cityOptions = contactCities.map(contact => {
+			return `<option value="${contact.address.city}">${contact.address.city}</option>`;
+		});
 
-	contacts.length < 1
-		? (filterOptions.innerHTML += '')
-		: (filterOptions.innerHTML += cityOptions);
+		filterOptions.innerHTML += cityOptions;
+	}
 }
 
 /*
