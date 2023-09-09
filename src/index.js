@@ -315,8 +315,11 @@ function filterByCity(city) {
   the user. Then call `render()` with the filtered list.
 */
 function filterHandler() {
-	filterOptions.addEventListener('change', () => {
-		const filterOptions = document.querySelector('select#filterOptions');
+	const filterOptions = document.querySelector('select#filterOptions');
+
+	filterOptions.addEventListener('change', event => {
+		event.preventDefault();
+
 		let cityVal = filterOptions.value;
 
 		if (cityVal === '0') {
@@ -353,7 +356,7 @@ function loadCities(contacts) {
 		})
 		.join('');
 
-	!contacts
+	contacts.length < 1
 		? (filterOptions.innerHTML += '')
 		: (filterOptions.innerHTML += cityOptions);
 }
@@ -361,7 +364,9 @@ function loadCities(contacts) {
 /*
   Remove the contact from the contact list with the given id.
 */
-function deleteContact(id) {}
+function deleteContact(id) {
+	contacts = contacts.filter(contact => Number(contact.id) !== Number(id));
+}
 
 /*
   Add a `click` event handler to the `deleteBtn` elements.
@@ -369,7 +374,23 @@ function deleteContact(id) {}
   corresponding `data-id` then call `deleteContact()` and re-render 
   the list.
 */
-function deleteButtonHandler() {}
+function deleteButtonHandler() {
+	let deleteBtns = document.querySelectorAll('button.deleteBtn');
+
+	deleteBtns.forEach(btn => {
+		btn.addEventListener('click', event => {
+			event.preventDefault();
+
+			const contactCard = event.target.parentNode;
+
+			let id = contactCard.dataset.id;
+
+			deleteContact(id);
+
+			render(contacts);
+		});
+	});
+}
 
 /*
   Perform all startup tasks here. Use this function to attach the 
@@ -379,6 +400,8 @@ function main() {
 	loadCities(contacts);
 
 	render(contacts);
+
+	deleteButtonHandler();
 
 	filterHandler();
 }
