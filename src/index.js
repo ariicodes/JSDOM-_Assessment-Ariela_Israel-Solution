@@ -315,7 +315,7 @@ function filterByCity(city) {
   the user. Then call `render()` with the filtered list.
 */
 function filterHandler() {
-	const filterOptions = document.querySelector('select#filterOptions');
+	const filterOptions = document.querySelector('#filterOptions');
 
 	filterOptions.addEventListener('change', event => {
 		event.preventDefault();
@@ -340,23 +340,28 @@ function filterHandler() {
 */
 
 function loadCities(contacts) {
-	const filterOptions = document.querySelector('#filterOptions > option');
+	const filterOptions = document.querySelector('select#filterOptions');
 
-	if (contacts.length > 0) {
-		const contactCities = contacts.filter((item, index, array) => {
-			const cityIndex = array.findIndex(
-				cityItem => cityItem.address.city === item.address.city
-			);
-
-			return cityIndex === index;
-		});
-
-		const cityOptions = contactCities.map(contact => {
-			return `<option value="${contact.address.city}">${contact.address.city}</option>`;
-		});
-
-		filterOptions.innerHTML += cityOptions;
+	if (contacts.length === 0) {
+		filterOptions.innerHTML = '<option value="0">No Cities</option>';
+		return;
 	}
+
+	const contactCities = contacts.filter((item, index, array) => {
+		const cityIndex = array.findIndex(
+			cityItem => cityItem.address.city === item.address.city
+		);
+
+		return cityIndex === index;
+	});
+
+	const cityOptions = contactCities
+		.map(contact => {
+			return `<option value=${contact.address.city}>${contact.address.city}</option>`;
+		})
+		.join('');
+
+	filterOptions.innerHTML += cityOptions;
 }
 
 /*
