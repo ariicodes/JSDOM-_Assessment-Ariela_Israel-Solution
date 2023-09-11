@@ -291,7 +291,7 @@ function renderContact(contact) {
 function render(contacts) {
 	const contactSection = document.querySelector('section#contacts');
 
-	contactSection.innerHTML = '';
+	// contactSection.innerHTML = '';
 
 	const content = contacts.map(renderContact).join('');
 
@@ -315,18 +315,15 @@ function filterByCity(city) {
   the user. Then call `render()` with the filtered list.
 */
 function filterHandler() {
-	const filterOptions = document.querySelector('#filterOptions');
+	const filterOptions = document.querySelector('select#filterOptions');
 
 	filterOptions.addEventListener('change', event => {
-		event.preventDefault();
-
-		let cityVal = filterOptions.value;
+		let cityVal = event.target.value;
 
 		if (cityVal === '0') {
 			render(contacts);
 		} else {
-			let city = `${cityVal} Vale`;
-			let filter = filterByCity(city);
+			let filter = filterByCity(cityVal);
 			render(filter);
 		}
 	});
@@ -339,29 +336,44 @@ function filterHandler() {
   add an `<option>` element for each city to the select.
 */
 
+// function loadCities(contacts) {
+// 	const filterOptions = document.querySelector('select#filterOptions');
+
+// 	if (contacts.length === 0) {
+// 		filterOptions.innerHTML = '<option value="0">No Cities</option>';
+// 		return;
+// 	}
+
+// 	const contactCities = contacts.filter((item, index, array) => {
+// 		const cityIndex = array.findIndex(
+// 			cityItem => cityItem.address.city === item.address.city
+// 		);
+
+// 		return cityIndex === index;
+// 	});
+
+// 	const cityOptions = contactCities
+// 		.map(contact => {
+// 			return `<option value=${contact.address.city}>${contact.address.city}</option>`;
+// 		})
+// 		.join('');
+
+// 	filterOptions.innerHTML += cityOptions;
+// }
+
 function loadCities(contacts) {
-	const filterOptions = document.querySelector('select#filterOptions');
+	const filterOptions = document.querySelector('#filterOptions');
 
-	if (contacts.length === 0) {
-		filterOptions.innerHTML = '<option value="0">No Cities</option>';
-		return;
-	}
+	const cities = new Set(contacts.map(({ address: { city } }) => city));
 
-	const contactCities = contacts.filter((item, index, array) => {
-		const cityIndex = array.findIndex(
-			cityItem => cityItem.address.city === item.address.city
-		);
-
-		return cityIndex === index;
-	});
-
-	const cityOptions = contactCities
-		.map(contact => {
-			return `<option value=${contact.address.city}>${contact.address.city}</option>`;
-		})
+	const formOptions = Array.from(cities)
+		.map(city => `<option value="${city}">${city}</option>`)
 		.join('');
 
-	filterOptions.innerHTML += cityOptions;
+	filterOptions.innerHTML = `
+  <option value="0">-- Select a city --</option>
+  ${formOptions}
+  `;
 }
 
 /*
